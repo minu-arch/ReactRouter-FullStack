@@ -43,6 +43,18 @@ cd frontend
 pnpm install
 ```
 
+### Environment Setup
+
+1. Create a `.env.local` file in the frontend directory
+2. Add your Supabase credentials:
+
+```
+VITE_SUPABASE_URL=your_supabase_url_here
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+```
+
+> **Important**: Never commit your actual Supabase credentials to version control. The `.env.local` file is included in `.gitignore` for security reasons.
+
 ### Development
 
 Start the development server:

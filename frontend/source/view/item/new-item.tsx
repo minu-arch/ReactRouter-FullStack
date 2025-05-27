@@ -1,5 +1,10 @@
 import { Form, useNavigate } from "react-router";
 import { newItemAction } from "@/view/item/hook";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 // Exportăm action pentru a fi utilizat de React Router
 export { newItemAction as action };
@@ -9,39 +14,43 @@ export default function NewItem() {
   return (
     <div className="max-w-md mx-auto">
     <h2 className="text-2xl font-bold mb-4">Create New Item</h2>
-    <Form method="post" className="space-y-4 bg-white p-4 rounded shadow">
-      <div>
-        <label className="block text-gray-700 ">Title</label>
-        <input
+    <Form method="post" className="space-y-4">
+      <Card className="p-4">
+      <div className="flex flex-col gap-2"  >
+        <Label className="block text-gray-700 ">Title</Label>
+        <Input
           name="title"
           type="text"
           className="border border-gray-300 rounded px-3 py-2 w-full text-black"
           required
         />
       </div>
-      <div>
-        <label className="block text-gray-700">Content</label>
-        <textarea
+      <div className="flex flex-col gap-2">
+        <Label className="block text-gray-700">Content</Label>
+        <Textarea
           name="description"
           className="border border-gray-300 rounded px-3 py-2 w-full text-black"
           required
         />
       </div>
       <div className="flex space-x-4">
-      <button
+      <Button
         type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500"
+        variant="secondary"
+        className="bg-accent hover:bg-accent/50"
       >
         Create Item
-      </button>
-      <button
+      </Button>
+      <Button
         type="button"
         onClick={() => navigate(-1)}
-        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
+        variant="default"
+        className="bg-foreground hover:bg-foreground/70"
         >
           Back
-        </button>
+        </Button>
       </div>
+      </Card>
     </Form>
   </div>
   )

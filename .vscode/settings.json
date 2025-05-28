@@ -1,6 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
   },
   "editor.defaultFormatter": "biomejs.biome",
   "[javascript]": {
@@ -16,6 +18,15 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "files.autoSave": "onFocusChange",
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "editor.tabSize": 2,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "biome.lspBin": "node_modules/.bin/biome",
+  "biome.enabled": true
 }

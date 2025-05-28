@@ -1,10 +1,10 @@
-import { Form, useNavigate } from "react-router"
-import { newItemAction } from "@/view/item/hook"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { newItemAction } from "@/view/item/hook"
+import { Form, useNavigate } from "react-router"
 
 // Exportăm action pentru a fi utilizat de React Router
 export { newItemAction as action }
@@ -19,6 +19,7 @@ export default function NewItem() {
 					<div className="flex flex-col gap-2">
 						<Label className="block text-gray-700 ">Title</Label>
 						<Input
+							placeholder="Enter title"
 							name="title"
 							type="text"
 							className="border border-gray-300 rounded px-3 py-2 w-full text-black"
@@ -29,6 +30,7 @@ export default function NewItem() {
 						<Label className="block text-gray-700">Content</Label>
 						<Textarea
 							name="description"
+							placeholder="Enter description"
 							className="border border-gray-300 rounded px-3 py-2 w-full text-black"
 							required
 						/>

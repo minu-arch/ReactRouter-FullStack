@@ -1,8 +1,9 @@
-import { NavLink } from "react-router"
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { NavLink } from "react-router";
 
 export default function NavBar() {
 	return (
-		<nav className="bg-white shadow p-4">
+		<nav className="shadow p-4 ">
 			<div className="container mx-auto flex items-center justify-between">
 				<NavLink to="/welcome" className="text-2xl font-bold text-indigo-600">
 					Home
@@ -24,8 +25,9 @@ export default function NavBar() {
 					>
 						New Item
 					</NavLink>
+					<ModeToggle />
 				</div>
 			</div>
 		</nav>
-	)
+	);
 }

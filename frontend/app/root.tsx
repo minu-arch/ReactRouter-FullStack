@@ -1,16 +1,17 @@
 import {
-	isRouteErrorResponse,
 	Links,
 	Meta,
+	NavLink,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	NavLink,
-} from "react-router"
+	isRouteErrorResponse,
+} from "react-router";
 
-import type { Route } from "./+types/root"
-import "../source/theme/theme.css"
-import NavBar from "../source/components/nav-bar"
+import type { Route } from "./+types/root";
+import "../source/theme/theme.css";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import NavBar from "../source/components/nav-bar";
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,7 +24,7 @@ export const links: Route.LinksFunction = () => [
 		rel: "stylesheet",
 		href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
 	},
-]
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -41,34 +42,39 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Scripts />
 			</body>
 		</html>
-	)
+	);
 }
 
 export default function App() {
 	return (
-		<div>
-			<NavBar />
-			<main className="container mx-auto p-4">
-				<Outlet />
-			</main>
-		</div>
-	)
+		<ThemeProvider defaultTheme="dark">
+			<div className="flex flex-col min-h-screen">
+				<NavBar />
+				<main className="container mx-auto p-4 flex-grow">
+					<Outlet />
+				</main>
+				<footer className="container mx-auto p-4 text-center text-gray-500 text-sm mt-auto border-t">
+					&copy; {new Date().getFullYear()} React Router + Supabase App
+				</footer>
+			</div>
+		</ThemeProvider>
+	);
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-	let message = "Oops!"
-	let details = "An unexpected error occurred."
-	let stack: string | undefined
+	let message = "Oops!";
+	let details = "An unexpected error occurred.";
+	let stack: string | undefined;
 
 	if (isRouteErrorResponse(error)) {
-		message = error.status === 404 ? "404" : "Error"
+		message = error.status === 404 ? "404" : "Error";
 		details =
 			error.status === 404
 				? "The requested page could not be found."
-				: error.statusText || details
+				: error.statusText || details;
 	} else if (import.meta.env.DEV && error && error instanceof Error) {
-		details = error.message
-		stack = error.stack
+		details = error.message;
+		stack = error.stack;
 	}
 
 	return (
@@ -81,5 +87,5 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 				</pre>
 			)}
 		</main>
-	)
+	);
 }

@@ -6,4 +6,5 @@ export default [
 	route("/items", "../source/view/item/items.tsx"),
 	route("/new-item", "../source/view/item/new-item.tsx"),
 	route("/item/:id", "../source/view/item/item.tsx"),
+	route("/add-item", "../source/view/item/addItem/index.tsx"),
 ] satisfies RouteConfig

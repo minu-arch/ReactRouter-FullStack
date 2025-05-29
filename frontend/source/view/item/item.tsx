@@ -1,11 +1,5 @@
-import { Form, useLoaderData, useActionData, useNavigate } from "react-router"
-import { itemLoader as loader, itemAction as action } from "@/view/item/hook"
-import { Card } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
 	Dialog,
 	DialogContent,
@@ -14,19 +8,27 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { itemAction as action, itemLoader as loader } from "@/view/item/hook";
+import { useState } from "react";
+import { Form, useActionData, useLoaderData, useNavigate } from "react-router";
 
 // Exportăm loader și action pentru a fi utilizate de React Router
-export { loader, action }
+export { loader, action };
 
 export default function Item() {
-	const { item, error } = useLoaderData<typeof loader>()
-	const actionData = useActionData<typeof action>()
-	const navigate = useNavigate()
-	const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+	const { item, error } = useLoaderData<typeof loader>();
+	const actionData = useActionData<typeof action>();
+	const navigate = useNavigate();
+	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
 	if (error) {
-		return <div className="bg-red-200 text-red-800 p-2 mb-4 rounded">{error}</div>
+		return (
+			<div className="bg-red-200 text-red-800 p-2 mb-4 rounded">{error}</div>
+		);
 	}
 
 	return (
@@ -50,21 +52,21 @@ export default function Item() {
 			<Form method="post" className="space-y-4" id="itemForm">
 				<Card className="p-4 ">
 					<div className="flex flex-col gap-2">
-						<Label className="block text-gray-700">Title</Label>
+						<Label className="block text-foreground">Title</Label>
 						<Input
 							name="title"
 							type="text"
 							defaultValue={item.title}
-							className="border border-gray-300 rounded px-3 py-2 w-full text-black"
+							className="border border-gray-300 rounded px-3 py-2 w-full text-foreground"
 							required
 						/>
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
-						<Label className="block text-gray-700">Content</Label>
+						<Label className="block text-foreground">Content</Label>
 						<Textarea
 							name="description"
 							defaultValue={item.description}
-							className="border border-gray-300 rounded px-3 py-2 w-full text-black"
+							className="border border-gray-300 rounded px-3 py-2 w-full text-foreground"
 							required
 						/>
 					</div>
@@ -80,7 +82,10 @@ export default function Item() {
 								Update
 							</Button>
 
-							<Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+							<Dialog
+								open={showDeleteDialog}
+								onOpenChange={setShowDeleteDialog}
+							>
 								<DialogTrigger asChild>
 									<Button
 										type="button"
@@ -94,8 +99,8 @@ export default function Item() {
 									<DialogHeader>
 										<DialogTitle>Confirm Deletion</DialogTitle>
 										<DialogDescription>
-											Are you sure you want to delete "{item.title}"? This action cannot
-											be undone.
+											Are you sure you want to delete "{item.title}"? This
+											action cannot be undone.
 										</DialogDescription>
 									</DialogHeader>
 									<DialogFooter>
@@ -127,5 +132,5 @@ export default function Item() {
 				</Card>
 			</Form>
 		</div>
-	)
+	);
 }

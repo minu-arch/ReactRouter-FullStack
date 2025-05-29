@@ -45,12 +45,6 @@ export default function Items() {
 				<CardTitle className="text-2xl font-bold text-red-800">
 					List of Items
 				</CardTitle>
-				{/* <Button asChild>
-					<Link to="/add-item" className="flex items-center gap-2">
-						<PlusCircle size={16} />
-						<span>Adaugă Item</span>
-					</Link>
-				</Button> */}
 			</div>
 
 			{error && (

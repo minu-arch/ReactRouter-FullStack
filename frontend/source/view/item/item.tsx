@@ -14,16 +14,35 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { itemAction as action, itemLoader as loader } from "@/view/item/hook";
 import { useState } from "react";
-import { Form, useActionData, useLoaderData, useNavigate } from "react-router";
+import { useFetcher, useLoaderData, useNavigate } from "react-router";
 
 // Exportăm loader și action pentru a fi utilizate de React Router
 export { loader, action };
 
 export default function Item() {
 	const { item, error } = useLoaderData<typeof loader>();
-	const actionData = useActionData<typeof action>();
 	const navigate = useNavigate();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+	// Folosim fetcher pentru operațiuni optimiste
+	const fetcher = useFetcher<typeof action>();
+
+	// Verificăm dacă operațiunea este în desfășurare
+	const isUpdating =
+		fetcher.state === "submitting" &&
+		fetcher.formData?.get("intent") === "update";
+	const isDeleting =
+		fetcher.state === "submitting" &&
+		fetcher.formData?.get("intent") === "delete";
+
+	// Verificăm dacă operațiunile au avut succes
+	const hasUpdated = fetcher.data?.updated;
+	const hasDeleted = fetcher.data?.deleted;
+
+	// Dacă itemul a fost șters, redirectăm la pagina de iteme
+	if (hasDeleted) {
+		navigate("/items", { replace: true });
+	}
 
 	if (error) {
 		return (
@@ -34,22 +53,18 @@ export default function Item() {
 	return (
 		<div className="max-w-md mx-auto">
 			<h2 className="text-2xl font-bold text-red-800 mb-4">Edit Item</h2>
-			{actionData?.error && (
+			{fetcher.data?.error && (
 				<div className="bg-red-200 text-red-800 p-2 mb-4 rounded">
-					{actionData.error}
+					{fetcher.data.error}
 				</div>
 			)}
-			{actionData?.updated && (
+			{hasUpdated && (
 				<div className="bg-green-200 text-green-800 p-2 mb-4 rounded">
 					Item updated successfully!
 				</div>
 			)}
-			{actionData?.deleted && (
-				<div className="bg-green-200 text-green-800 p-2 mb-4 rounded">
-					Item deleted successfully!
-				</div>
-			)}
-			<Form method="post" className="space-y-4" id="itemForm">
+
+			<fetcher.Form method="post" className="space-y-4" id="itemForm">
 				<Card className="p-4 ">
 					<div className="flex flex-col gap-2">
 						<Label className="block text-foreground">Title</Label>
@@ -59,6 +74,7 @@ export default function Item() {
 							defaultValue={item.title}
 							className="border border-gray-300 rounded px-3 py-2 w-full text-foreground"
 							required
+							disabled={isUpdating || isDeleting}
 						/>
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
@@ -68,6 +84,7 @@ export default function Item() {
 							defaultValue={item.description}
 							className="border border-gray-300 rounded px-3 py-2 w-full text-foreground"
 							required
+							disabled={isUpdating || isDeleting}
 						/>
 					</div>
 					<div className="flex justify-between mt-6">
@@ -78,8 +95,9 @@ export default function Item() {
 								value="update"
 								variant="default"
 								className="bg-foreground hover:bg-foreground/70"
+								disabled={isUpdating || isDeleting}
 							>
-								Update
+								{isUpdating ? "Updating..." : "Update"}
 							</Button>
 
 							<Dialog
@@ -91,8 +109,9 @@ export default function Item() {
 										type="button"
 										variant="destructive"
 										onClick={() => setShowDeleteDialog(true)}
+										disabled={isUpdating || isDeleting}
 									>
-										Delete
+										{isDeleting ? "Deleting..." : "Delete"}
 									</Button>
 								</DialogTrigger>
 								<DialogContent>
@@ -107,6 +126,7 @@ export default function Item() {
 										<Button
 											variant="outline"
 											onClick={() => setShowDeleteDialog(false)}
+											disabled={isDeleting}
 										>
 											Cancel
 										</Button>
@@ -117,8 +137,9 @@ export default function Item() {
 											value="delete"
 											variant="destructive"
 											onClick={() => setShowDeleteDialog(false)}
+											disabled={isDeleting}
 										>
-											Delete
+											{isDeleting ? "Deleting..." : "Delete"}
 										</Button>
 									</DialogFooter>
 								</DialogContent>
@@ -130,7 +151,7 @@ export default function Item() {
 						</Button>
 					</div>
 				</Card>
-			</Form>
+			</fetcher.Form>
 		</div>
 	);
 }

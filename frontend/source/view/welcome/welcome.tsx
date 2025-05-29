@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -6,28 +6,28 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card"
-import { Link, useLoaderData } from "react-router"
-import logoDark from "./logo-dark.svg"
-import logoLight from "./logo-light.svg"
-import { resources } from "./resources"
+} from "@/components/ui/card";
+import { Link, useLoaderData } from "react-router";
+import logoDark from "./logo-dark.svg";
+import logoLight from "./logo-light.svg";
+import { resources } from "./resources";
 
 export function meta() {
 	return [
 		{ title: "Welcome" },
 		{ name: "description", content: "Welcome to React Router!" },
-	]
+	];
 }
 
 export function loader() {
 	return {
 		title: "Welcome",
-	}
+	};
 }
 
 export default function Welcome() {
-	const data = useLoaderData()
-	console.log("Loader data:", data)
+	const data = useLoaderData();
+	console.log("Loader data:", data);
 
 	return (
 		<main className="flex flex-col items-center pt-16 pb-4 px-4">
@@ -59,7 +59,9 @@ export default function Welcome() {
 									Shadcn UI
 								</span>
 							</CardTitle>
-							<CardDescription>Ce am adăugat până acum în aplicație</CardDescription>
+							<CardDescription>
+								Ce am adăugat până acum în aplicație
+							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<ul className="space-y-2">
@@ -87,6 +89,30 @@ export default function Welcome() {
 									</span>
 									<span>Supabase pentru backend și autentificare</span>
 								</li>
+								<li className="flex items-center">
+									<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
+										⚙️
+									</span>
+									<span>Fetcher API pentru operațiuni optimiste</span>
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
+										📱
+									</span>
+									<span>Scroll restoration inteligent</span>
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
+										🧩
+									</span>
+									<span>Rutare avansată cu organizare optimizată</span>
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
+										🔍
+									</span>
+									<span>Pagină 404 personalizată</span>
+								</li>
 							</ul>
 						</CardContent>
 						<CardFooter>
@@ -104,7 +130,9 @@ export default function Welcome() {
 									Documentație
 								</span>
 							</CardTitle>
-							<CardDescription>Link-uri către documentația oficială</CardDescription>
+							<CardDescription>
+								Link-uri către documentația oficială
+							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<ul className="space-y-4">
@@ -127,5 +155,5 @@ export default function Welcome() {
 				</section>
 			</div>
 		</main>
-	)
+	);
 }

@@ -20,14 +20,52 @@ export async function loader({ request }: { request: Request }) {
 	const from = (page - 1) * itemsPerPage;
 	const to = from + itemsPerPage - 1;
 
-	// Obținem numărul total de iteme
-	const { count, error: countError } = await supabase
-		.from("items")
-		.select("*", { count: "exact", head: true });
+	try {
+		// Execută ambele cereri în paralel pentru performanță mai bună
+		const [countResult, itemsResult] = await Promise.all([
+			// Cerere pentru numărul total de iteme
+			supabase
+				.from("items")
+				.select("*", { count: "exact", head: true }),
 
-	if (countError) {
+			// Cerere pentru itemele de pe pagina curentă
+			supabase
+				.from("items")
+				.select("*")
+				.range(from, to)
+				.order("id", { ascending: false }),
+		]);
+
+		// Verificăm erorile
+		if (countResult.error) {
+			throw new Error(countResult.error.message);
+		}
+
+		if (itemsResult.error) {
+			throw new Error(itemsResult.error.message);
+		}
+
+		// Calculăm numărul total de pagini
+		const totalItems = countResult.count || 0;
+		const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+		// Returnăm itemele și informațiile de paginare
 		return {
-			error: countError.message,
+			items: itemsResult.data as Item[],
+			pagination: {
+				currentPage: page,
+				totalPages,
+				totalItems,
+				itemsPerPage,
+			},
+		};
+	} catch (error) {
+		// În caz de eroare, returnăm un mesaj de eroare și o listă goală
+		return {
+			error:
+				error instanceof Error
+					? error.message
+					: "A apărut o eroare la încărcarea itemelor.",
 			items: [],
 			pagination: {
 				currentPage: page,
@@ -37,38 +75,4 @@ export async function loader({ request }: { request: Request }) {
 			},
 		};
 	}
-
-	// Obținem itemele pentru pagina curentă
-	const { data, error } = await supabase
-		.from("items")
-		.select("*")
-		.range(from, to)
-		.order("id", { ascending: false });
-
-	if (error) {
-		return {
-			error: error.message,
-			items: [],
-			pagination: {
-				currentPage: page,
-				totalPages: 0,
-				totalItems: 0,
-				itemsPerPage,
-			},
-		};
-	}
-
-	// Calculăm numărul total de pagini
-	const totalItems = count || 0;
-	const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-	return {
-		items: data as Item[],
-		pagination: {
-			currentPage: page,
-			totalPages,
-			totalItems,
-			itemsPerPage,
-		},
-	};
 }

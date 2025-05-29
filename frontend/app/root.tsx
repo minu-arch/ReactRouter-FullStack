@@ -6,12 +6,16 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
+	useNavigate,
+	useRouteError,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "../source/theme/theme.css";
+import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import NavBar from "../source/components/nav-bar";
+import NotFound from "../source/view/not-found";
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -61,31 +65,66 @@ export default function App() {
 	);
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary() {
+	const error = useRouteError();
+	const navigate = useNavigate();
+
+	// Verificăm dacă este o eroare de rută (cum ar fi 404)
+	if (isRouteErrorResponse(error) && error.status === 404) {
+		return (
+			<ThemeProvider defaultTheme="dark">
+				<div className="flex flex-col min-h-screen">
+					<NavBar />
+					<main className="container mx-auto p-4 flex-grow">
+						<NotFound />
+					</main>
+					<footer className="container mx-auto p-4 text-center text-gray-500 text-sm mt-auto border-t">
+						&copy; {new Date().getFullYear()} React Router + Supabase App
+					</footer>
+				</div>
+			</ThemeProvider>
+		);
+	}
+
+	// Pentru alte erori, afișăm un mesaj general de eroare
 	let message = "Oops!";
-	let details = "An unexpected error occurred.";
+	let details = "A apărut o eroare neașteptată.";
 	let stack: string | undefined;
 
 	if (isRouteErrorResponse(error)) {
-		message = error.status === 404 ? "404" : "Error";
-		details =
-			error.status === 404
-				? "The requested page could not be found."
-				: error.statusText || details;
+		message = `Eroare ${error.status}`;
+		details = error.statusText || details;
 	} else if (import.meta.env.DEV && error && error instanceof Error) {
 		details = error.message;
 		stack = error.stack;
 	}
 
 	return (
-		<main className="pt-16 p-4 container mx-auto">
-			<h1>{message}</h1>
-			<p>{details}</p>
-			{stack && (
-				<pre className="w-full p-4 overflow-x-auto">
-					<code>{stack}</code>
-				</pre>
-			)}
-		</main>
+		<ThemeProvider defaultTheme="dark">
+			<div className="flex flex-col min-h-screen">
+				<NavBar />
+				<main className="container mx-auto p-4 flex-grow">
+					<div className="flex flex-col items-center justify-center min-h-[50vh] px-4 text-center">
+						<div className="mb-8 text-5xl font-extrabold text-red-600">
+							{message}
+						</div>
+						<p className="mb-8 text-lg text-gray-600 dark:text-gray-400 max-w-md">
+							{details}
+						</p>
+						{stack && import.meta.env.DEV && (
+							<pre className="w-full p-4 overflow-x-auto text-xs text-left bg-gray-100 dark:bg-gray-800 rounded mb-8">
+								<code>{stack}</code>
+							</pre>
+						)}
+						<Button onClick={() => navigate("/welcome")}>
+							Înapoi la pagina principală
+						</Button>
+					</div>
+				</main>
+				<footer className="container mx-auto p-4 text-center text-gray-500 text-sm mt-auto border-t">
+					&copy; {new Date().getFullYear()} React Router + Supabase App
+				</footer>
+			</div>
+		</ThemeProvider>
 	);
 }

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { useRouteError } from "react-router";
+import { useEffect, useState } from "react";
+import { useLocation, useRouteError } from "react-router";
 import { Link } from "react-router";
 
 export function meta() {
@@ -17,6 +18,14 @@ interface RouteError {
 
 export default function NotFound() {
 	const error = useRouteError();
+	const location = useLocation();
+	const [currentPath, setCurrentPath] = useState("");
+
+	// Folosim useEffect pentru a accesa location doar pe partea de client
+	useEffect(() => {
+		setCurrentPath(location.pathname);
+	}, [location]);
+
 	const isRouteError =
 		error && typeof error === "object" && error !== null && "status" in error;
 
@@ -24,9 +33,6 @@ export default function NotFound() {
 	const message = isRouteError
 		? (error as RouteError).statusText || "Pagina pe care o căutați nu există."
 		: "Pagina pe care o căutați nu există.";
-
-	// Obținem URL-ul curent pentru a-l afișa în mesaj
-	const currentPath = window.location.pathname;
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
@@ -37,12 +43,14 @@ export default function NotFound() {
 			<p className="mb-2 text-lg text-gray-600 dark:text-gray-400 max-w-md">
 				{message}
 			</p>
-			<p className="mb-8 text-sm text-gray-500 dark:text-gray-500 max-w-md">
-				<code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
-					{currentPath}
-				</code>{" "}
-				nu este o rută validă în aplicație.
-			</p>
+			{currentPath && (
+				<p className="mb-8 text-sm text-gray-500 dark:text-gray-500 max-w-md">
+					<code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+						{currentPath}
+					</code>{" "}
+					nu este o rută validă în aplicație.
+				</p>
+			)}
 
 			<div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
 				<Button asChild>

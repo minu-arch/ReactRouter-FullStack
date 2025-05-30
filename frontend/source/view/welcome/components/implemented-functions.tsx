@@ -9,6 +9,50 @@ import {
 } from "@/components/ui/card";
 import { Link } from "react-router";
 
+// Array cu funcționalitățile implementate
+const implementedFeatures = [
+	{
+		id: "data-api",
+		icon: "🚀",
+		text: "Liste de iteme cu React Router Data API",
+	},
+	{
+		id: "dynamic-params",
+		icon: "🔗",
+		text: "Navigare cu parametri dinamici",
+	},
+	{
+		id: "shadcn",
+		icon: "🎨",
+		text: "Componente moderne cu Shadcn UI",
+	},
+	{
+		id: "supabase",
+		icon: "⚡",
+		text: "Supabase pentru backend și autentificare",
+	},
+	{
+		id: "fetcher",
+		icon: "⚙️",
+		text: "Fetcher API pentru operațiuni optimiste",
+	},
+	{
+		id: "scroll",
+		icon: "📱",
+		text: "Scroll restoration inteligent",
+	},
+	{
+		id: "routing",
+		icon: "🧩",
+		text: "Rutare avansată cu organizare optimizată",
+	},
+	{
+		id: "404",
+		icon: "🔍",
+		text: "Pagină 404 personalizată",
+	},
+];
+
 export default function ImplementedFunctions() {
 	return (
 		<Card>
@@ -23,54 +67,14 @@ export default function ImplementedFunctions() {
 			</CardHeader>
 			<CardContent>
 				<ul className="space-y-2">
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							🚀
-						</span>
-						<span>Liste de iteme cu React Router Data API</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							🔗
-						</span>
-						<span>Navigare cu parametri dinamici</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							🎨
-						</span>
-						<span>Componente moderne cu Shadcn UI</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							⚡
-						</span>
-						<span>Supabase pentru backend și autentificare</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							⚙️
-						</span>
-						<span>Fetcher API pentru operațiuni optimiste</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							📱
-						</span>
-						<span>Scroll restoration inteligent</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							🧩
-						</span>
-						<span>Rutare avansată cu organizare optimizată</span>
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
-							🔍
-						</span>
-						<span>Pagină 404 personalizată</span>
-					</li>
+					{implementedFeatures.map((feature) => (
+						<li key={feature.id} className="flex items-center">
+							<span className="mr-2 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm">
+								{feature.icon}
+							</span>
+							<span>{feature.text}</span>
+						</li>
+					))}
 				</ul>
 			</CardContent>
 			<CardFooter>

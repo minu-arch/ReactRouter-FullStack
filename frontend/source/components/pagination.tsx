@@ -108,7 +108,7 @@ export function Pagination({
 					disabled={safePage === 1}
 					aria-label="Prima pagină"
 				>
-					<ChevronsLeft className="h-4 w-4" />
+					<ChevronsLeft className="size-4" />
 				</Button>
 			)}
 
@@ -120,7 +120,7 @@ export function Pagination({
 				disabled={safePage === 1}
 				aria-label="Pagina anterioară"
 			>
-				<ChevronLeft className="h-4 w-4" />
+				<ChevronLeft className="size-4" />
 			</Button>
 
 			{showPageNumbers &&
@@ -164,7 +164,7 @@ export function Pagination({
 				disabled={safePage === totalPages}
 				aria-label="Pagina următoare"
 			>
-				<ChevronRight className="h-4 w-4" />
+				<ChevronRight className="size-4" />
 			</Button>
 
 			{showFirstLast && (
@@ -176,7 +176,7 @@ export function Pagination({
 					disabled={safePage === totalPages}
 					aria-label="Ultima pagină"
 				>
-					<ChevronsRight className="h-4 w-4" />
+					<ChevronsRight className="size-4" />
 				</Button>
 			)}
 		</div>

@@ -9,6 +9,10 @@ import { Form, useNavigate } from "react-router";
 // Exportăm action pentru a fi utilizat de React Router
 export { newItemAction as action };
 
+export function meta() {
+	return [{ title: "Add item" }, { name: "description", content: "Add item" }];
+}
+
 export default function NewItem() {
 	const navigate = useNavigate();
 	return (

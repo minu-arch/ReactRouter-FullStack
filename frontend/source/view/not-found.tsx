@@ -5,8 +5,8 @@ import { Link } from "react-router";
 
 export function meta() {
 	return [
-		{ title: "Pagină negăsită" },
-		{ name: "description", content: "Pagina pe care o căutați nu există." },
+		{ title: "Not found" },
+		{ name: "description", content: "Page not found" },
 	];
 }
 

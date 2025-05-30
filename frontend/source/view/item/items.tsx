@@ -17,6 +17,13 @@ import {
 	useSearchParams,
 } from "react-router";
 
+export function meta() {
+	return [
+		{ title: "List of items" },
+		{ name: "description", content: "List of items" },
+	];
+}
+
 // Exportăm loader pentru a fi utilizat de React Router
 export { loader };
 

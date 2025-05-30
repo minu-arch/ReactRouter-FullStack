@@ -20,6 +20,13 @@ import {
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 
+export function meta() {
+	return [
+		{ title: "Edit item" },
+		{ name: "description", content: "Editare item" },
+	];
+}
+
 // Exportăm loader și action pentru a fi utilizate de React Router
 export { loader, action };
 

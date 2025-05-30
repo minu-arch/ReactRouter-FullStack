@@ -1,5 +1,6 @@
 import { supabase } from "@/lib";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { useFetcher, useNavigate } from "react-router";
 
 /**
  * Loader pentru item
@@ -46,4 +47,38 @@ export async function action({ request, params }: ActionFunctionArgs) {
 		return { deleted: true, error: null };
 	}
 	return { updated: false, deleted: false, error: null };
+}
+
+/**
+ * Hook pentru operațiuni optimiste pe un item
+ * @returns Starea operațiunilor și fetcher-ul
+ */
+export function useItemActions() {
+	const navigate = useNavigate();
+	const fetcher = useFetcher<typeof action>();
+
+	// Verificăm dacă operațiunea este în desfășurare
+	const isUpdating =
+		fetcher.state === "submitting" &&
+		fetcher.formData?.get("intent") === "update";
+	const isDeleting =
+		fetcher.state === "submitting" &&
+		fetcher.formData?.get("intent") === "delete";
+
+	// Verificăm dacă operațiunile au avut succes
+	const hasUpdated = fetcher.data?.updated;
+	const hasDeleted = fetcher.data?.deleted;
+
+	// Dacă itemul a fost șters, redirectăm la pagina de iteme
+	if (hasDeleted) {
+		navigate("/items", { replace: true });
+	}
+
+	return {
+		fetcher,
+		isUpdating,
+		isDeleting,
+		hasUpdated,
+		hasDeleted,
+	};
 }

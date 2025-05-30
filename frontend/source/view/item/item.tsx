@@ -12,9 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { itemAction as action, itemLoader as loader } from "@/view/item/hook";
+import {
+	itemAction as action,
+	itemLoader as loader,
+	useItemActions,
+} from "@/view/item/hook";
 import { useState } from "react";
-import { useFetcher, useLoaderData, useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 
 // Exportăm loader și action pentru a fi utilizate de React Router
 export { loader, action };
@@ -24,25 +28,8 @@ export default function Item() {
 	const navigate = useNavigate();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-	// Folosim fetcher pentru operațiuni optimiste
-	const fetcher = useFetcher<typeof action>();
-
-	// Verificăm dacă operațiunea este în desfășurare
-	const isUpdating =
-		fetcher.state === "submitting" &&
-		fetcher.formData?.get("intent") === "update";
-	const isDeleting =
-		fetcher.state === "submitting" &&
-		fetcher.formData?.get("intent") === "delete";
-
-	// Verificăm dacă operațiunile au avut succes
-	const hasUpdated = fetcher.data?.updated;
-	const hasDeleted = fetcher.data?.deleted;
-
-	// Dacă itemul a fost șters, redirectăm la pagina de iteme
-	if (hasDeleted) {
-		navigate("/items", { replace: true });
-	}
+	// Folosim hook-ul custom pentru operațiuni optimiste
+	const { fetcher, isUpdating, isDeleting, hasUpdated } = useItemActions();
 
 	if (error) {
 		return (

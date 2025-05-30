@@ -54,7 +54,7 @@ export default function Items() {
 
 			{isLoading && (
 				<div className="flex justify-center my-8">
-					<div className="animate-spin rounded-full size-10 border-t-2 border-b-2 border-indigo-600" />
+					<div className="animate-spin rounded-full size-10 border-t-2 border-b-2 border-foreground" />
 				</div>
 			)}
 

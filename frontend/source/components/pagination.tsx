@@ -84,11 +84,11 @@ export function Pagination({
 	const getSizeClass = () => {
 		switch (size) {
 			case "sm":
-				return "h-8 w-8 text-xs";
+				return "size-8 text-xs";
 			case "lg":
-				return "h-12 w-12 text-base";
+				return "size-12 text-base";
 			default:
-				return "h-10 w-10 text-sm";
+				return "size-10 text-sm";
 		}
 	};
 

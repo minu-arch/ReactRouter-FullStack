@@ -6,12 +6,13 @@ export default [
 
 	// Rutele pentru iteme
 	route("/items", "../source/view/item/items.tsx"),
-	route("/items/:id", "../source/view/item/item.tsx"),
-	route("/items/new", "../source/view/item/new-item.tsx"),
+	route("/items/:id", "../source/view/item/item.tsx", { id: "items-id" }),
+	route("/items/new", "../source/view/item/new-item.tsx", { id: "items-new" }),
 
 	// Păstrăm rutele vechi pentru compatibilitate
-	route("/new-item", "../source/view/item/new-item.tsx"),
-	route("/item/:id", "../source/view/item/item.tsx"),
+	route("/new-item", "../source/view/item/new-item.tsx", { id: "new-item" }),
+	route("/item/:id", "../source/view/item/item.tsx", { id: "item-id" }),
+
 	route("/add-item", "../source/view/item/addItem/index.tsx"),
 
 	// Pagina de 404 - va fi afișată pentru orice rută necunoscută
